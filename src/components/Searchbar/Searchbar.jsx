@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { FcSearch } from 'react-icons/fc';
 import PropTypes from 'prop-types';
 
-export class Searchbar extends Component {
-  state = {
-    searchValue: '',
+export const Searchbar = ({ onSearch }) => {
+  const [searchValue, setSearchValue] = useState('');
+
+  const hendelChenge = event => {
+    setSearchValue(event.target.value.trim());
   };
 
-  hendelChenge = event => {
-    this.setState({ searchValue: event.target.value });
-  };
-
-  handelSubmit = event => {
-    const { onSearch } = this.props;
-    const { searchValue } = this.state;
-
+  const handelSubmit = event => {
     event.preventDefault();
 
     if (!searchValue) {
@@ -24,33 +19,29 @@ export class Searchbar extends Component {
     }
 
     onSearch(searchValue);
-    this.setState({ searchValue: '' });
+    setSearchValue('');
   };
 
-  render() {
-    const { searchValue } = this.state;
+  return (
+    <header className="Searchbar">
+      <form className="SearchForm" onSubmit={handelSubmit}>
+        <button type="submit" className="SearchForm-button">
+          <FcSearch size="34px" />
+        </button>
 
-    return (
-      <header className="Searchbar">
-        <form className="SearchForm" onSubmit={this.handelSubmit}>
-          <button type="submit" className="SearchForm-button">
-            <FcSearch size="34px" />
-          </button>
-
-          <input
-            className="SearchForm-input"
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={searchValue}
-            onChange={this.hendelChenge}
-          />
-        </form>
-      </header>
-    );
-  }
-}
+        <input
+          className="SearchForm-input"
+          type="text"
+          autoComplete="off"
+          autoFocus
+          placeholder="Search images and photos"
+          value={searchValue}
+          onChange={hendelChenge}
+        />
+      </form>
+    </header>
+  );
+};
 
 Searchbar.propTypes = {
   onSearch: PropTypes.func.isRequired,
