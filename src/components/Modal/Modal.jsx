@@ -2,12 +2,6 @@ import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 export const Modal = ({ alt, src, onClose }) => {
-  const handleEsc = event => {
-    if (event.code === 'Escape') {
-      onClose();
-    }
-  };
-
   const handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
       onClose();
@@ -15,12 +9,18 @@ export const Modal = ({ alt, src, onClose }) => {
   };
 
   useEffect(() => {
+    const handleEsc = event => {
+      if (event.code === 'Escape') {
+        onClose();
+      }
+    };
+
     window.addEventListener('keydown', handleEsc);
 
     return () => {
       window.removeEventListener('keydown', handleEsc);
     };
-  });
+  }, [onClose]);
 
   return (
     <div className="Overlay" onClick={handleBackdropClick}>
