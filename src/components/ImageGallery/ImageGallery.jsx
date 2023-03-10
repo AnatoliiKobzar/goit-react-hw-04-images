@@ -25,7 +25,6 @@ export const ImageGallary = ({ value }) => {
     setPage(1);
 
     getImage(value)
-      .then(response => response.json())
       .then(images => {
         setImages(images.hits);
         setCurrentValue(value);
@@ -49,7 +48,6 @@ export const ImageGallary = ({ value }) => {
     }
 
     getImage(currentValue, page)
-      .then(response => response.json())
       .then(images => {
         setImages(prevImages => [...prevImages, ...images.hits]);
 
